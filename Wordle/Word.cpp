@@ -3,12 +3,35 @@
 Word::Word()
 {
     setAnswer();
+
+    //Game Tutorial
+    std::cout << "INSTRUCTIONS:\n" << std::endl;
+    std::cout << "You have six attempts to guess a FIVE letter word" << std::endl << '\n';
+    std::cout << " " << FOREGROUND(ForegroundColor::Black, BACKGROUND(BackgroundColor::BrightGreen, " ")) << " = Letter is in the correct place \n";
+    std::cout << " " << FOREGROUND(ForegroundColor::Black, BACKGROUND(BackgroundColor::BrightYellow, " ")) << " = Letter is in the wrong place \n";
+    std::cout << " " << FOREGROUND(ForegroundColor::Black, BACKGROUND(BackgroundColor::BrightBlack, " ")) << " = Letter not included in answer \n\n";
 }
 
-void Word::returnHint(std::string input)
+bool Word::compareInput(std::string input)
 {
     std::string tmpAnswer = answer;
     std::string tmpInput = input;
+
+    //If the whole input string matches the answer.
+    if (input == answer)
+    {
+        for (int i = 0; i < answer.length(); i++)
+        {
+            if (input[i] == answer[i])
+            {
+                tmpInput[i] = '0';
+            }
+        }
+
+        printChar(tmpInput, input);
+
+        return true;
+    }
 
     /*
      * Output string, setting it to answer just to get the correct size.
@@ -30,7 +53,7 @@ void Word::returnHint(std::string input)
     {
 	    if (input[i] == answer[i])
 	    {
-            tmpInput[i] = NULL;
+            tmpInput[i] = '0';
             tmpAnswer[i] = NULL;
 
             out[i] = input[i];
@@ -52,10 +75,10 @@ void Word::returnHint(std::string input)
         {
             if (tmpAnswer[i] == tmpInput[j])
             {
-                tmpInput[j] = NULL;
+                tmpInput[j] = '1';
                 tmpAnswer[i] = NULL;
 
-                out[j] = '*';
+                out[j] = input[j];
                 break;
             }
         }
@@ -69,9 +92,18 @@ void Word::returnHint(std::string input)
     {
         if (out[i] == NULL)
         {
-            out[i] = '_';
+            tmpInput[i] = '2';
+            out[i] = input[i];
         }
     }
+
+    printChar(tmpInput, input);
+    return false;
+}
+
+void Word::setColor(BackgroundColor bgColor, ForegroundColor fgColor, char c)
+{
+    std::cout << BACKGROUND(bgColor, FOREGROUND(fgColor, c));
 }
 
 //Set a random word from .txt as the current answer using time as seed
@@ -101,6 +133,32 @@ std::string Word::setAnswer()
 std::string Word::getAnswer()
 {
 	return answer;
+}
+
+void Word::printChar(std::string tmpInput, std::string  input)
+{
+    for (int i = 0; i < answer.length(); i++)
+    {
+        switch (tmpInput[i])
+        {
+        case '0':
+        {
+            setColor(BackgroundColor::BrightGreen, ForegroundColor::Black, input[i]);
+            continue;
+        }
+        case '1':
+        {
+            setColor(BackgroundColor::BrightYellow, ForegroundColor::Black, input[i]);
+            continue;
+        }
+        case '2':
+        {
+            setColor(BackgroundColor::BrightBlack, ForegroundColor::Black, input[i]);
+        }
+        }
+    }
+
+    std::cout << "\n\n";
 }
 
 //Count number of words in .txt

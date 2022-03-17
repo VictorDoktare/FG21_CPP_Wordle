@@ -2,41 +2,54 @@
 #include "Word.h"
 #include "Input.h"
 
-#define FOREGROUND(color, text) "\x1B[" << static_cast<int>(color) << "m" << text << "\033[0m"
-#define BACKGROUND(color, text) "\033[3;42;" << static_cast<int>(color) << "m" << text << "\033[0m"
-
-enum class ForegroundColor : int {
-    Black = 30,
-    Red = 31,
-    Green = 32,
-    Yellow = 33,
-    White = 37,
-    BrightBlack = 90,
-    BrightRed = 91,
-    BrightGreen = 92,
-    BrightYellow = 93
+enum class GameState : int
+{
+    GuessWord = 1,
+    RestartGame = 2,
+    EndGame = 3
 };
 
-enum class BackgroundColor : int {
-    Black = 40,
-    Red = 41,
-    Green = 42,
-    Yellow = 43,
-    White = 47,
-    BrightBlack = 100,
-    BrightRed = 101,
-    BrightGreen = 102,
-    BrightYellow = 103
-};
 
 int main()
 {
     Word word;
     Input input(word);
+    GameState gameState = GameState::GuessWord;
 
-    std::cout << word.getAnswer() << std::endl;
-    input.setInput();
-    word.returnHint(input.getInput());
+    int guessCounter = 6;
+    bool isRunning {true};
+
+
+    while (isRunning)
+    {
+	    switch (gameState)
+	    {
+	    case GameState::GuessWord:
+		{
+            std::cout << "Attempts Left: " << guessCounter << "\n";
+            std::cout << "Guess: ";
+            input.setInput();
+            guessCounter--;
+
+            if (word.compareInput(input.getInput()) || guessCounter == 0)
+            {
+                gameState = GameState::RestartGame;
+            }
+            break;
+		}
+	    case GameState::RestartGame:
+        {
+            std::cout << '\n' << "Game Restarting";
+            break;
+        }
+        case GameState::EndGame:
+        {
+            std::cout << '\n' << "Game Restarting";
+            isRunning = false;
+            break;
+        }
+	    }
+    }
 
 
     return 0;
