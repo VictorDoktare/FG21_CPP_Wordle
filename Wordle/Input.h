@@ -8,9 +8,13 @@ class Input
 {
 public:
 	Input(Word &word);
-	void setInput();
+	void setGuessInput();
+	void setRestartInput();
 	std::string getInput();
 private:
 	Word* word;
 	std::string input;
+
+	const std::string ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	bool checkValidity(std::string input);
 };

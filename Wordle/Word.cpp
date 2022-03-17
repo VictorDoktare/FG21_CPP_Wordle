@@ -4,12 +4,18 @@ Word::Word()
 {
     setAnswer();
 
-    //Game Tutorial
-    std::cout << "INSTRUCTIONS:\n" << std::endl;
-    std::cout << "You have six attempts to guess a FIVE letter word" << std::endl << '\n';
+    //Lazy game tutorial
+    std::cout << "  _ _ _ _____ _____ ____  __    _____ " << "\n";
+    std::cout << " | | | |     | __  |     |  |  |   __|" << "\n";
+    std::cout << " | | | |  |  |    -|  |  |  |__|   __|" << "\n";
+    std::cout << " |_____|_____|__|__|____/|_____|_____|" << "\n";
+
+    std::cout << '\n';
+
+    std::cout << " You have six attempts to guess a FIVE letter word" << std::endl << '\n';
     std::cout << " " << FOREGROUND(ForegroundColor::Black, BACKGROUND(BackgroundColor::BrightGreen, " ")) << " = Letter is in the correct place \n";
     std::cout << " " << FOREGROUND(ForegroundColor::Black, BACKGROUND(BackgroundColor::BrightYellow, " ")) << " = Letter is in the wrong place \n";
-    std::cout << " " << FOREGROUND(ForegroundColor::Black, BACKGROUND(BackgroundColor::BrightBlack, " ")) << " = Letter not included in answer \n\n";
+    std::cout << " " << FOREGROUND(ForegroundColor::Black, BACKGROUND(BackgroundColor::BrightBlack, " ")) << " = Letter not included in answer \n";
 }
 
 bool Word::compareInput(std::string input)
@@ -29,6 +35,8 @@ bool Word::compareInput(std::string input)
         }
 
         printChar(tmpInput, input);
+
+        std::cout << "Congratulations, you have guessed correct!";
 
         return true;
     }
