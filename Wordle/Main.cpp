@@ -9,7 +9,6 @@ enum class GameState : int
     EndGame = 3
 };
 
-
 int main()
 {
 
@@ -20,7 +19,7 @@ int main()
     int guessCounter = 6;
     bool isRunning {true};
 
-
+    //Game Loop
     while (isRunning)
     {
 	    switch (gameState)

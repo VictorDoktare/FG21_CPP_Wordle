@@ -36,13 +36,13 @@ bool Word::compareInput(std::string input)
 
         printChar(tmpInput, input);
 
-        std::cout << "Congratulations, you have guessed correct!";
+        std::cout << "Congratulations, you have guessed correct! ";
 
         return true;
     }
 
     /*
-     * Output string, setting it to answer just to get the correct size.
+     * Setting 'out' to answer just to get the correct size instead of hard code it.
      * Setting all 'chars' to NULL makes it easier when doing the final check.
      */
     std::string out = answer;
@@ -55,7 +55,7 @@ bool Word::compareInput(std::string input)
 
     /*
      * Check every 'char' that is already a correct match and in correct position.
-     * For every valid check i remove them from the temp containers.
+     * For every valid check remove them from the temp containers.
      */
     for (int i = 0; i < answer.length(); i++)
     {
