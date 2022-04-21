@@ -24,7 +24,7 @@ class Word
 public:
 	Word();
 
-	bool compareInput(std::string input);
+	bool compareInput(std::string input); // feedback: string arguments usually can be a string references, to avoid copying
 
 	void setColor(BackgroundColor bgColor, ForegroundColor fgColor, char c);
 
