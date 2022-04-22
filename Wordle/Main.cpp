@@ -13,7 +13,9 @@ int main()
 {
 
     Word word;
-    Input input(word);
+    Input input(word); // feedback: the Word and Input classes contain some functionality which seems quite similar to me. I don't have anything against
+                       // current design, however to me it looks more intuitive to create a single class for all funcitons and data that is currently split
+                       // between those two classes.
     GameState gameState = GameState::GuessWord;
 
     int guessCounter = 6;

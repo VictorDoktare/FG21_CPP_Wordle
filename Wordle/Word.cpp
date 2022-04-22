@@ -20,7 +20,8 @@ Word::Word()
 
 bool Word::compareInput(std::string input)
 {
-    std::string tmpAnswer = answer;
+    std::string tmpAnswer = answer; // feedback: you are relying on answer is being set here. For more robust design its good to do a check if it was
+                                    // actually set and not empty.
     std::string tmpInput = input;
 
     //If the whole input string matches the answer.
@@ -48,7 +49,13 @@ bool Word::compareInput(std::string input)
     std::string out = answer;
     for (int i = 0; i < answer.length(); i++)
     {
-        out[i] = NULL;
+        out[i] = NULL; // feedback: not sure I understand the purpose of setting characters to NULL here.
+                       // If I'd do this compare, I'd do it like this:
+                       // for each character in input do:
+                       //   if character is same in the same position in target word: set green color
+                       //   if charecter is present in any position in target word: set yellow color
+                       //   else: set grey.
+                       // Not sure why compare needs to be more complicated than that
     }
 
 
@@ -115,12 +122,14 @@ void Word::setColor(BackgroundColor bgColor, ForegroundColor fgColor, char c)
 }
 
 //Set a random word from .txt as the current answer using time as seed
-std::string Word::setAnswer()
+std::string Word::setAnswer() // feedback: I'd say the name of this function is a bit misleading, as it actually gets the random word from the file.
 {
     std::string line;
 
     srand(time(0));
-    int index = 1 + (rand() % getWordCount());
+    int index = 1 + (rand() % getWordCount()); // feedback: you read the whole file once here, to calculate the number of lines in the file,
+                                               // then you do it again below. I'd say it would be more efficient to read the whole file in memory
+                                               // once and then pick a random word from memory.
 
     word_txt.open("words.txt", std::ifstream::in);
     for (int i = 1; i <= index; ++i)
